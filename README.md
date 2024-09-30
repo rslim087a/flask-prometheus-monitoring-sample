@@ -12,7 +12,7 @@ This project is a sample Flask application with Prometheus monitoring integratio
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/flask-prometheus-monitoring-sample.git
+   git clone https://github.com/rslim087a/flask-prometheus-monitoring-sample.git
    cd flask-prometheus-monitoring-sample
    ```
 
@@ -49,7 +49,7 @@ To run the application, use the following command:
 python app.py
 ```
 
-The application will start and be available at `http://localhost:5000`.
+The application will start and be available at `http://localhost:5001`.
 
 ## API Endpoints
 

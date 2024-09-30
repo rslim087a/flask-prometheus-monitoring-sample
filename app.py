@@ -73,13 +73,19 @@ def metrics():
     update_system_metrics()
     return generate_latest(REGISTRY), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
-# Add prometheus wsgi middleware to route /metrics requests
+# Modify the middleware to return bytes
+def metrics_app(environ, start_response):
+    update_system_metrics()
+    data = generate_latest(REGISTRY)
+    status = '200 OK'
+    headers = [('Content-Type', CONTENT_TYPE_LATEST), ('Content-Length', str(len(data)))]
+    start_response(status, headers)
+    return [data]
+
+# Use the modified middleware
 app_dispatch = DispatcherMiddleware(app, {
-    '/metrics': lambda environ, start_response: (
-        start_response('200 OK', [('Content-Type', CONTENT_TYPE_LATEST)]),
-        [generate_latest(REGISTRY)]
-    )
+    '/metrics': metrics_app
 })
 
 if __name__ == '__main__':
-    run_simple(hostname='0.0.0.0', port=5000, application=app_dispatch)
+    run_simple(hostname='0.0.0.0', port=5001, application=app_dispatch)
